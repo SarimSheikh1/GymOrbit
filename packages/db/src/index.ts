@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-export { PrismaClient };
+export { PrismaClient, PaymentMethod } from "@prisma/client";
 const prismaClient = globalThis.__gymorbitPrisma ?? new PrismaClient();
 export const prisma: PrismaClient = prismaClient;
 

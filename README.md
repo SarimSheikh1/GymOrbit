@@ -16,6 +16,10 @@ This foundation includes a pnpm/Turborepo workspace, a Next.js dashboard shell, 
 
 Open `http://localhost:3000`. The seed creates `owner@gymorbit.test` with password `ChangeMe123!` for local development only.
 
+### Expo test client
+
+The web dashboard remains the primary interface. The Expo companion in `apps/mobile` is a mobile test client for front-desk/device flows. Run `pnpm --filter @gymorbit/mobile dev`, then open it with Expo Go or an emulator.
+
 ## Commands
 
 - `pnpm lint` — lint all workspaces

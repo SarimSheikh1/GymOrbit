@@ -160,6 +160,25 @@ model Payment {
  paidAt DateTime @default(now())
  invoice Invoice @relation(fields: [invoiceId], references: [id])
  member Member @relation(fields: [memberId], references: [id])
+ ledgerEntry LedgerEntry?
+}
+enum LedgerEntryType {
+ PAYMENT
+ REFUND
+ EXPENSE
+ ADJUSTMENT
+}
+model LedgerEntry {
+ id String @id @default(cuid())
+ branchId String
+ paymentId String? @unique
+ type LedgerEntryType
+ amount Int
+ note String?
+ occurredAt DateTime @default(now())
+ createdAt DateTime @default(now())
+ payment Payment? @relation(fields: [paymentId], references: [id])
+ @@index([branchId, occurredAt])
 }
 model Attendance {
  id String @id @default(cuid())
