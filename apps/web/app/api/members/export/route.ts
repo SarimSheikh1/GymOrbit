@@ -1,0 +1,3 @@
+import { prisma } from "@gymorbit/db";
+import { auth } from "../../../../auth";
+export async function GET() { if (!(await auth())?.user) return new Response("Unauthorized", { status: 401 }); const members = await prisma.member.findMany({ orderBy: { joinedAt: "desc" } }); const quoted = (v: string | null) => `"${(v ?? "").replaceAll('"', '""')}"`; const rows = ["memberCode,name,phone,email,status,joinedAt", ...members.map((m) => [m.memberCode, m.name, m.phone, m.email, m.status, m.joinedAt.toISOString()].map(quoted).join(","))]; return new Response(rows.join("\n"), { headers: { "Content-Type": "text/csv", "Content-Disposition": "attachment; filename=members.csv" } }); }
