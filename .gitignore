@@ -1,0 +1,9 @@
+node_modules
+.turbo
+.next
+dist
+coverage
+*.tsbuildinfo
+.env
+apps/web/.env.local
+packages/db/generated

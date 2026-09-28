@@ -1,0 +1,21 @@
+{
+  "name": "gymorbit",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.6.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "format": "prettier --write .",
+    "db:generate": "pnpm --filter @gymorbit/db generate",
+    "db:migrate": "pnpm --filter @gymorbit/db migrate",
+    "db:seed": "pnpm --filter @gymorbit/db seed"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3"
+  }
+}

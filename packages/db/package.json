@@ -1,0 +1,11 @@
+{
+  "name": "@gymorbit/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "generate": "prisma generate", "migrate": "prisma migrate dev", "seed": "prisma db seed", "lint": "tsc --noEmit", "typecheck": "tsc --noEmit", "test": "vitest run --passWithNoTests" },
+  "prisma": { "seed": "tsx prisma/seed.ts" },
+  "dependencies": { "@prisma/client": "^6.1.0", "bcryptjs": "^2.4.3" },
+  "devDependencies": { "@types/bcryptjs": "^2.4.6", "@types/node": "^22.10.2", "eslint": "^9.17.0", "prisma": "^6.1.0", "tsx": "^4.19.2", "typescript": "^5.7.2", "vitest": "^2.1.8" }
+}
