@@ -56,6 +56,7 @@ model User {
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
  member Member?
+ trainer Trainer?
  auditLogs AuditLog[]
 }
 model Branch {
@@ -91,6 +92,9 @@ model Member {
  invoices Invoice[]
  payments Payment[]
  attendance Attendance[]
+ classBookings ClassBooking[]
+ measurements Measurement[]
+ workoutPlans WorkoutPlan[]
  @@index([branchId, status])
  @@index([phone])
 }
@@ -201,4 +205,83 @@ model AuditLog {
  createdAt DateTime @default(now())
  user User? @relation(fields: [userId], references: [id])
  @@index([entity, entityId])
+}
+model Trainer {
+ id String @id @default(cuid())
+ userId String @unique
+ bio String?
+ specialties String?
+ user User @relation(fields: [userId], references: [id])
+ sessions ClassSession[]
+ workoutPlans WorkoutPlan[]
+}
+model ClassType {
+ id String @id @default(cuid())
+ name String @unique
+ description String?
+ defaultCapacity Int @default(20)
+ sessions ClassSession[]
+}
+model ClassSession {
+ id String @id @default(cuid())
+ classTypeId String
+ trainerId String?
+ room String?
+ startsAt DateTime
+ endsAt DateTime
+ capacity Int
+ classType ClassType @relation(fields: [classTypeId], references: [id])
+ trainer Trainer? @relation(fields: [trainerId], references: [id])
+ bookings ClassBooking[]
+ @@index([startsAt])
+}
+model ClassBooking {
+ id String @id @default(cuid())
+ sessionId String
+ memberId String
+ status String @default("BOOKED")
+ bookedAt DateTime @default(now())
+ session ClassSession @relation(fields: [sessionId], references: [id])
+ member Member @relation(fields: [memberId], references: [id])
+ @@unique([sessionId, memberId])
+}
+model Exercise {
+ id String @id @default(cuid())
+ name String @unique
+ muscleGroup String
+ mediaUrl String?
+ instructions String?
+ items WorkoutPlanItem[]
+}
+model WorkoutPlan {
+ id String @id @default(cuid())
+ name String
+ memberId String?
+ trainerId String?
+ isTemplate Boolean @default(false)
+ member Member? @relation(fields: [memberId], references: [id])
+ trainer Trainer? @relation(fields: [trainerId], references: [id])
+ items WorkoutPlanItem[]
+}
+model WorkoutPlanItem {
+ id String @id @default(cuid())
+ planId String
+ exerciseId String
+ sets Int
+ reps Int
+ restSec Int @default(60)
+ dayNumber Int @default(1)
+ plan WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+ exercise Exercise @relation(fields: [exerciseId], references: [id])
+}
+model Measurement {
+ id String @id @default(cuid())
+ memberId String
+ date DateTime @default(now())
+ weight Decimal?
+ bodyFat Decimal?
+ chest Decimal?
+ waist Decimal?
+ member Member @relation(fields: [memberId], references: [id])
+ @@index([memberId, date])
 }
